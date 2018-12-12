@@ -15,7 +15,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class NexuscleanApplication implements CommandLineRunner {
-	List<Artifact> artifacts = new ArrayList<Artifact>();
+	ArtifactRepository artifactRepository = new ArtifactRepository();
 
 	public static void main(String[] args) {
 		SpringApplication.run(NexuscleanApplication.class, args);
@@ -25,8 +25,8 @@ public class NexuscleanApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		File baseDir = new File(Configuration.NEXUS_STORAGE);
 		navigate(baseDir);
-		for (Artifact artifact : artifacts) System.out.println(artifact);
-
+		System.out.println("list of all artifacts");
+		artifactRepository.printAllArtifacts(System.out);
 	}
 
 	private void navigate(File baseDir) throws Exception {
@@ -42,7 +42,7 @@ public class NexuscleanApplication implements CommandLineRunner {
 					MavenXpp3Reader reader = new MavenXpp3Reader();
 					Model model = reader.read(new FileReader(file));
 					Artifact artifact = new Artifact(model.getArtifactId(), model.getGroupId(), model.getVersion(),  dt.format(new Date(file.lastModified())));
-					artifacts.add(artifact);
+					artifactRepository.add(artifact);
 				}
 
 			}
