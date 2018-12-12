@@ -8,7 +8,11 @@ public class ArtifactRepository {
 	List<Artifact> artifacts = new ArrayList<Artifact>();
 	
 	public void printAllArtifacts(PrintStream out) {
-		for (Artifact artifact : artifacts) out.println(artifact);
+		printAllArtifacts(artifacts, out);
+	}
+
+	public void printAllArtifacts(List<Artifact> theArtifacts, PrintStream out) {
+		for (Artifact artifact : theArtifacts) out.println(artifact);
 	}
 
 	public void add(Artifact artifact) {

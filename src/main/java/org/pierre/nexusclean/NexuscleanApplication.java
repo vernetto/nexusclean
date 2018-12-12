@@ -27,6 +27,9 @@ public class NexuscleanApplication implements CommandLineRunner {
 		navigate(baseDir);
 		System.out.println("list of all artifacts");
 		artifactRepository.printAllArtifacts(System.out);
+		List<Artifact> unique = artifactRepository.findArtifactsWithUniqueGA();
+		System.out.println("list of unique artifacts");
+		artifactRepository.printAllArtifacts(unique, System.out);		
 	}
 
 	private void navigate(File baseDir) throws Exception {
