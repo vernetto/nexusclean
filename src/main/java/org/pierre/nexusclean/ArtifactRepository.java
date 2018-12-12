@@ -15,10 +15,13 @@ public class ArtifactRepository {
 		artifacts.add(artifact);
 	}
 	
-	
 	public List<Artifact> findArtifactsWithSameGA(Artifact artifactModel) {
+		return findArtifactsWithSameGA(artifactModel, artifacts);
+	}
+	
+	private List<Artifact> findArtifactsWithSameGA(Artifact artifactModel, List<Artifact> repo) {
 		List<Artifact> result = new ArrayList<Artifact>();
-		for (Artifact artifact : artifacts) {
+		for (Artifact artifact : repo) {
 			if (artifactModel.getArtifactId().equals(artifact.getArtifactId()) && artifactModel.getGroupId().equals(artifact.getGroupId())) {
 				result.add(artifactModel);
 			}
@@ -29,9 +32,11 @@ public class ArtifactRepository {
 	public List<Artifact> findArtifactsWithUniqueGA() {
 		List<Artifact> result = new ArrayList<Artifact>();
 		for (Artifact artifact : artifacts) {
-			if (artifactModel.getArtifactId().equals(artifact.getArtifactId()) && artifactModel.getGroupId().equals(artifact.getGroupId())) {
-				result.add(artifactModel);
+			List<Artifact> set = findArtifactsWithSameGA(artifact, result);
+			if (set.isEmpty()) {
+				result.add(artifact);
 			}
+			
 		}
 		return result;
 	}
