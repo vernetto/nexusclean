@@ -20,10 +20,18 @@ public class NexuscleanApplicationTests {
 		ArtifactRepository artifactRepository = new ArtifactRepository();
 		artifactRepository.add(new Artifact("artifactId1", "groupId1", "version1", "20181209"));
 		artifactRepository.add(new Artifact("artifactId1", "groupId1", "version2", "20181208"));
-		artifactRepository.add(new Artifact("artifactId1", "groupId2", "version2", "20181208"));
+		artifactRepository.add(new Artifact("artifactId1", "groupId2", "version2", "20181207"));
+		artifactRepository.add(new Artifact("artifactId2", "groupId1", "version2", "20181207"));
+		
 		List<Artifact> unique = artifactRepository.findArtifactsWithUniqueGA();
+		System.out.println("\nall unique:");
 		artifactRepository.printAllArtifacts(unique, System.out);
+		for (Artifact af : unique) {
+			List<Artifact> item = artifactRepository.findArtifactsWithSameGA(af);
+			System.out.println("\nartifacts with GA " + af.getGroupId() + " " + af.getArtifactId());
+			artifactRepository.printAllArtifacts(item, System.out);
+		}
+		
 	}
-
 }
 

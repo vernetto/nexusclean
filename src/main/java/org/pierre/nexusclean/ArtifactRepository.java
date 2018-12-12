@@ -27,7 +27,7 @@ public class ArtifactRepository {
 		List<Artifact> result = new ArrayList<Artifact>();
 		for (Artifact artifact : repo) {
 			if (artifactModel.getArtifactId().equals(artifact.getArtifactId()) && artifactModel.getGroupId().equals(artifact.getGroupId())) {
-				result.add(artifactModel);
+				result.add(artifact);
 			}
 		}
 		return result;

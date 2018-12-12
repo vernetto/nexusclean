@@ -31,7 +31,7 @@ public class Artifact {
 	}
 	@Override
 	public String toString() {
-		return "Artifact [artifactId=" + artifactId + ", groupId=" + groupId + ", version=" + version
+		return "Artifact [groupId=" + groupId + ", artifactId=" + artifactId + ", version=" + version
 				+ ", modifiedDate=" + modifiedDate + "]";
 	}
 	public Artifact(String artifactId, String groupId, String version, String modifiedDate) {
