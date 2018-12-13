@@ -1,6 +1,9 @@
 package org.pierre.nexusclean;
 
+import org.springframework.beans.factory.annotation.Value;
+
 public class Configuration {
-	public static String NEXUS_STORAGE = "/home/centos/nexus214/sonatype-work/nexus/storage/central";
+	@Value("${folderToScan}")
+	public static String NEXUS_STORAGE;
 
 }

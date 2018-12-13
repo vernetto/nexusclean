@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ArtifactRepository {
-	List<Artifact> artifacts = new ArrayList<Artifact>();
+	ArrayList<Artifact> artifacts = new ArrayList<Artifact>();
 	
 	public void printAllArtifacts(PrintStream out) {
 		printAllArtifacts(artifacts, out);
@@ -58,6 +58,12 @@ public class ArtifactRepository {
 		}
 		
 		return survivors;
+	}
+
+	public List<Artifact> removeFromSet(List<Artifact> allSurvivors) {
+		List<Artifact> result = (List<Artifact>) artifacts.clone();
+		result.removeAll(allSurvivors);
+		return result;
 	}
 	
 }
