@@ -42,4 +42,9 @@ public class Artifact {
 		this.modifiedDate = modifiedDate;
 	}
 	
+	public Artifact(String artifactId, String groupId) {
+		super();
+		this.artifactId = artifactId;
+		this.groupId = groupId;
+	}
 }

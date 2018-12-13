@@ -3,7 +3,6 @@ package org.pierre.nexusclean;
 import java.io.File;
 import java.io.FileReader;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -24,14 +23,27 @@ public class NexuscleanApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		File baseDir = new File(Configuration.NEXUS_STORAGE);
+		// build a list of ALL artifacts in nexus2 repository
 		navigate(baseDir);
 		System.out.println("list of all artifacts");
 		artifactRepository.printAllArtifacts(System.out);
+		// build a list of unique artifacts - independent of version/date
 		List<Artifact> unique = artifactRepository.findArtifactsWithUniqueGA();
 		System.out.println("list of unique artifacts");
-		artifactRepository.printAllArtifacts(unique, System.out);		
+		artifactRepository.printAllArtifacts(unique, System.out);	
+		// build now a list of artifacts who satisfy criteria (like: created in 2018, or belonging to 10 last releases)
+		for (Artifact item : unique) {
+			List<Artifact> survivors = artifactRepository.findArtifactsYoungerThanMinimumVersions(item, "2018", 10);
+		}
+		
 	}
 
+	
+	/**
+	 * Scan recursively a folder, identifying all pom files and adding artifact to collection
+	 * @param baseDir
+	 * @throws Exception
+	 */
 	private void navigate(File baseDir) throws Exception {
 		File[] files = baseDir.listFiles();
 		

@@ -44,5 +44,20 @@ public class ArtifactRepository {
 		}
 		return result;
 	}
+
+	public List<Artifact> findArtifactsYoungerThanMinimumVersions(Artifact item, String dateAfter, int minimumVersions) {
+		List<Artifact> itemsWithSameGA = findArtifactsWithSameGA(item);
+		List<Artifact> survivors = new ArrayList<Artifact>();
+		itemsWithSameGA.sort(new ArtifactsComparator());
+		int order = 1;
+		for (Artifact art : itemsWithSameGA) {
+			if ( (art.getModifiedDate().compareTo(dateAfter) >= 0) || (order <= minimumVersions) ) {
+				survivors.add(art);
+			}
+			order++;
+		}
+		
+		return survivors;
+	}
 	
 }
