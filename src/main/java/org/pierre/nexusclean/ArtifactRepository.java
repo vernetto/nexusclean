@@ -64,5 +64,10 @@ public class ArtifactRepository {
 		result.removeAll(allSurvivors);
 		return result;
 	}
+
+	public void sort() {
+		artifacts.sort(new ArtifactsComparator());
+		
+	}
 	
 }

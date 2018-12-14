@@ -48,6 +48,7 @@ public class NexuscleanApplication implements CommandLineRunner {
 		File baseDir = new File(NEXUS_STORAGE);
 		// build a list of ALL artifacts in nexus2 repository
 		navigate(baseDir);
+		artifactRepository.sort();
 		System.out.println("list of all artifacts");
 		artifactRepository.printAllArtifacts(System.out);
 		// build a list of unique artifacts - independent of version/date

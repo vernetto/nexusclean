@@ -31,6 +31,26 @@ public class NexuscleanApplicationTests {
 	}
 	
 	
+	@Test
+	public void testSort() {
+		ArtifactRepository artifactRepository = createTestRepo();
+		artifactRepository.sort();
+		System.out.println("\nsort");
+		artifactRepository.printAllArtifacts(System.out);
+	}
+		
+	@Test
+	public void testCompareto() {
+		ArtifactRepository artifactRepository = createTestRepo();
+		artifactRepository.sort();
+		System.out.println("\ncompareto");
+		System.out.println("Group1".compareTo("Group1"));
+		System.out.println("Group2".compareTo("Group1"));
+		System.out.println("Group1".compareTo("Group2"));
+		System.out.println("Group2".compareTo("Group2"));
+	}
+			
+	
 	
 
 	private ArtifactRepository createTestRepo() {
