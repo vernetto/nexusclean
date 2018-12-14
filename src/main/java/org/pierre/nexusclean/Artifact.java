@@ -5,6 +5,8 @@ public class Artifact {
 	String groupId;
 	String version;
 	String modifiedDate;
+	String fileLocation;
+	
 	public String getArtifactId() {
 		return artifactId;
 	}
@@ -61,6 +63,12 @@ public class Artifact {
 			return false;
 		return true;
 	}
+	public String getFileLocation() {
+		return fileLocation;
+	}
+	public void setFileLocation(String fileLocation) {
+		this.fileLocation = fileLocation;
+	}
 	public void setVersion(String version) {
 		this.version = version;
 	}
@@ -75,12 +83,13 @@ public class Artifact {
 		return "Artifact [groupId=" + groupId + ", artifactId=" + artifactId + ", version=" + version
 				+ ", modifiedDate=" + modifiedDate + "]";
 	}
-	public Artifact(String artifactId, String groupId, String version, String modifiedDate) {
+	public Artifact(String artifactId, String groupId, String version, String modifiedDate, String fileLocation) {
 		super();
 		this.artifactId = artifactId;
 		this.groupId = groupId;
 		this.version = version;
 		this.modifiedDate = modifiedDate;
+		this.fileLocation = fileLocation;
 	}
 	
 	public Artifact(String artifactId, String groupId) {
@@ -88,4 +97,5 @@ public class Artifact {
 		this.artifactId = artifactId;
 		this.groupId = groupId;
 	}
+
 }

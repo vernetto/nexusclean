@@ -71,6 +71,10 @@ public class NexuscleanApplication implements CommandLineRunner {
 		for (Artifact item : toBeDeleted) {
 			System.out.println(URLFORDELETE + item.getGroupId().replaceAll("\\.", "/") + "/" + item.getArtifactId() + "/" + item.getVersion());
 		}
+		System.out.println("rm to delete artifacts");
+		for (Artifact item : toBeDeleted) {
+			System.out.println("rm -rf  " + new File(item.getFileLocation()).getParent() + "/");
+		}
 		
 	}
 
@@ -94,7 +98,7 @@ public class NexuscleanApplication implements CommandLineRunner {
 					MavenXpp3Reader reader = new MavenXpp3Reader();
 					Model model = reader.read(new FileReader(file));
 					Artifact artifact = new Artifact(model.getArtifactId(), model.getGroupId(), model.getVersion(),
-							dt.format(new Date(file.lastModified())));
+							dt.format(new Date(file.lastModified())), file.getAbsolutePath());
 					if (model.getGroupId() == null) {
 						System.out.println("WARNING: null groupId for " + artifact);
 					} 

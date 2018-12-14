@@ -55,10 +55,10 @@ public class NexuscleanApplicationTests {
 
 	private ArtifactRepository createTestRepo() {
 		ArtifactRepository artifactRepository = new ArtifactRepository();
-		artifactRepository.add(new Artifact("artifactId1", "groupId1", "version1", "20181209"));
-		artifactRepository.add(new Artifact("artifactId1", "groupId1", "version2", "20181208"));
-		artifactRepository.add(new Artifact("artifactId1", "groupId2", "version2", "20181207"));
-		artifactRepository.add(new Artifact("artifactId2", "groupId1", "version2", "20181206"));
+		artifactRepository.add(new Artifact("artifactId1", "groupId1", "version1", "20181209", ""));
+		artifactRepository.add(new Artifact("artifactId1", "groupId1", "version2", "20181208", ""));
+		artifactRepository.add(new Artifact("artifactId1", "groupId2", "version2", "20181207", ""));
+		artifactRepository.add(new Artifact("artifactId2", "groupId1", "version2", "20181206", ""));
 		return artifactRepository;
 	}
 }
