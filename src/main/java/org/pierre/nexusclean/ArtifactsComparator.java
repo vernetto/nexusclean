@@ -12,7 +12,7 @@ public class ArtifactsComparator implements Comparator<Artifact> {
 		try {
 		ComparableVersion cv1 = new ComparableVersion(o1.getVersion());
 		ComparableVersion cv2 = new ComparableVersion(o2.getVersion());
-	    compareTo = cv1.compareTo(cv2);
+	    compareTo = cv2.compareTo(cv1);
 		}
 		catch (NullPointerException e) {
 			System.out.println("ERROR NPE with versions " + o1.getVersion() + " " + o2.getVersion());

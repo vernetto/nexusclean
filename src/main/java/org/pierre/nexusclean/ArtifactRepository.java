@@ -40,7 +40,6 @@ public class ArtifactRepository {
 			if (set.isEmpty()) {
 				result.add(artifact);
 			}
-			
 		}
 		return result;
 	}

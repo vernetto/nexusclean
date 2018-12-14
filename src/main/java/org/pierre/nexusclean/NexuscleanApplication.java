@@ -9,10 +9,12 @@ import java.util.List;
 
 import org.apache.maven.model.Model;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.core.env.Environment;
 
 @SpringBootApplication
 public class NexuscleanApplication implements CommandLineRunner {
@@ -22,6 +24,17 @@ public class NexuscleanApplication implements CommandLineRunner {
 	@Value("${urlForDelete}")
 	public String URLFORDELETE;
 	
+	@Value("${dateAfter}")
+	public String DATEAFTER;
+	
+	@Value("${versionsToRetain}")
+	public int VERSIONSTORETAIN;
+	
+
+    @Autowired
+    Environment env;
+	
+	
 	ArtifactRepository artifactRepository = new ArtifactRepository();
 
 	public static void main(String[] args) {
@@ -30,6 +43,7 @@ public class NexuscleanApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
+		System.out.println("NEXUS_STORAGE=" + NEXUS_STORAGE + " URLFORDELETE=" + URLFORDELETE + " DATEAFTER=" + DATEAFTER + " VERSIONSTORETAIN=" + VERSIONSTORETAIN);
 		System.out.println("scanning folder " + NEXUS_STORAGE);
 		File baseDir = new File(NEXUS_STORAGE);
 		// build a list of ALL artifacts in nexus2 repository
@@ -44,7 +58,7 @@ public class NexuscleanApplication implements CommandLineRunner {
 		// belonging to 10 last releases)
 		List<Artifact> allSurvivors = new ArrayList<Artifact>();
 		for (Artifact item : unique) {
-			List<Artifact> survivors = artifactRepository.findArtifactsYoungerThanMinimumVersions(item, "2018", 10);
+			List<Artifact> survivors = artifactRepository.findArtifactsYoungerThanMinimumVersions(item, DATEAFTER, VERSIONSTORETAIN);
 			allSurvivors.addAll(survivors);
 		}
 		System.out.println("list of survivor artifacts");
@@ -69,7 +83,7 @@ public class NexuscleanApplication implements CommandLineRunner {
 	private void navigate(File baseDir) throws Exception {
 		File[] files = baseDir.listFiles();
 
-		SimpleDateFormat dt = new SimpleDateFormat("yyyymmddhhmmss");
+		SimpleDateFormat dt = new SimpleDateFormat("yyyyMMddhhmmss");
 		for (File file : files) {
 			if (file.isDirectory() && !file.getName().equals(".nexus")) {
 				navigate(file);
