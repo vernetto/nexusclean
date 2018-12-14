@@ -19,6 +19,9 @@ public class NexuscleanApplication implements CommandLineRunner {
 	@Value("${folderToScan}")
 	public String NEXUS_STORAGE;
 	
+	@Value("${urlForDelete}")
+	public String URLFORDELETE;
+	
 	ArtifactRepository artifactRepository = new ArtifactRepository();
 
 	public static void main(String[] args) {
@@ -49,6 +52,10 @@ public class NexuscleanApplication implements CommandLineRunner {
 		List<Artifact> toBeDeleted = artifactRepository.removeFromSet(allSurvivors);
 		System.out.println("list of tobedeleted artifacts");
 		artifactRepository.printAllArtifacts(toBeDeleted, System.out);
+		System.out.println("curl to delete artifacts");
+		for (Artifact item : toBeDeleted) {
+			System.out.println(URLFORDELETE + item.getGroupId().replaceAll("\\.", "/") + "/" + item.getArtifactId() + "/" + item.getVersion());
+		}
 		
 	}
 
