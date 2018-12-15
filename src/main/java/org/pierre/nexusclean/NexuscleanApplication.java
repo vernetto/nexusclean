@@ -66,6 +66,16 @@ public class NexuscleanApplication implements CommandLineRunner {
 		artifactRepository.printAllArtifacts(allSurvivors, System.out);
 		List<Artifact> toBeDeleted = artifactRepository.removeFromSet(allSurvivors);
 		System.out.println("list of tobedeleted artifacts");
+		
+		// verify that all "tobedeleted" have at least VERSIONSTORETAIN survivors
+		for (Artifact item : toBeDeleted) {
+			List<Artifact> survivors = artifactRepository.findArtifactsWithSameGA(item, allSurvivors);
+			if (survivors.size() < VERSIONSTORETAIN) {
+				throw new IllegalArgumentException("Artifact to be deleted doesn't have enough survivors " + item);
+			}
+			
+		}
+		
 		artifactRepository.printAllArtifacts(toBeDeleted, System.out);
 		System.out.println("curl to delete artifacts");
 		for (Artifact item : toBeDeleted) {
