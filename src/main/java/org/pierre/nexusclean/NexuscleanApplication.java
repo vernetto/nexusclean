@@ -65,7 +65,6 @@ public class NexuscleanApplication implements CommandLineRunner {
 		System.out.println("list of survivor artifacts");
 		artifactRepository.printAllArtifacts(allSurvivors, System.out);
 		List<Artifact> toBeDeleted = artifactRepository.removeFromSet(allSurvivors);
-		System.out.println("list of tobedeleted artifacts");
 		
 		// verify that all "tobedeleted" have at least VERSIONSTORETAIN survivors
 		int checked = 0;
@@ -77,6 +76,8 @@ public class NexuscleanApplication implements CommandLineRunner {
 			checked++;
 		}
 		System.out.println(checked  + " artifacts to be deleted have been verified");
+
+		System.out.println("\nlist of tobedeleted artifacts");
 		
 		artifactRepository.printAllArtifacts(toBeDeleted, System.out);
 		System.out.println("curl to delete artifacts");
