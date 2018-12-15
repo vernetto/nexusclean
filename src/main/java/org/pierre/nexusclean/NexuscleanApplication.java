@@ -74,7 +74,7 @@ public class NexuscleanApplication implements CommandLineRunner {
 			if (survivors.size() < VERSIONSTORETAIN) {
 				throw new IllegalArgumentException("Artifact to be deleted doesn't have enough survivors " + item);
 			}
-			checked++
+			checked++;
 		}
 		System.out.println(checked  + " artifacts to be deleted have been verified");
 		
