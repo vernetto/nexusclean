@@ -23,7 +23,7 @@ public class ArtifactRepository {
 		return findArtifactsWithSameGA(artifactModel, artifacts);
 	}
 	
-	private List<Artifact> findArtifactsWithSameGA(Artifact artifactModel, List<Artifact> repo) {
+	public List<Artifact> findArtifactsWithSameGA(Artifact artifactModel, List<Artifact> repo) {
 		List<Artifact> result = new ArrayList<Artifact>();
 		for (Artifact artifact : repo) {
 			if (artifactModel.getArtifactId().equals(artifact.getArtifactId()) && artifactModel.getGroupId().equals(artifact.getGroupId())) {
