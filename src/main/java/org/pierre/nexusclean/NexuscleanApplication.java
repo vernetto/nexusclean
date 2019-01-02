@@ -20,21 +20,19 @@ import org.springframework.core.env.Environment;
 public class NexuscleanApplication implements CommandLineRunner {
 	@Value("${folderToScan}")
 	public String NEXUS_STORAGE;
-	
+
 	@Value("${urlForDelete}")
 	public String URLFORDELETE;
-	
+
 	@Value("${dateAfter}")
 	public String DATEAFTER;
-	
+
 	@Value("${versionsToRetain}")
 	public int VERSIONSTORETAIN;
-	
 
-    @Autowired
-    Environment env;
-	
-	
+	@Autowired
+	Environment env;
+
 	ArtifactRepository artifactRepository = new ArtifactRepository();
 
 	public static void main(String[] args) {
@@ -43,7 +41,8 @@ public class NexuscleanApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		System.out.println("NEXUS_STORAGE=" + NEXUS_STORAGE + " URLFORDELETE=" + URLFORDELETE + " DATEAFTER=" + DATEAFTER + " VERSIONSTORETAIN=" + VERSIONSTORETAIN);
+		System.out.println("NEXUS_STORAGE=" + NEXUS_STORAGE + " URLFORDELETE=" + URLFORDELETE + " DATEAFTER="
+				+ DATEAFTER + " VERSIONSTORETAIN=" + VERSIONSTORETAIN);
 		System.out.println("scanning folder " + NEXUS_STORAGE);
 		File baseDir = new File(NEXUS_STORAGE);
 		// build a list of ALL artifacts in nexus2 repository
@@ -59,7 +58,8 @@ public class NexuscleanApplication implements CommandLineRunner {
 		// belonging to 10 last releases)
 		List<Artifact> allSurvivors = new ArrayList<Artifact>();
 		for (Artifact item : unique) {
-			List<Artifact> survivors = artifactRepository.findArtifactsYoungerThanMinimumVersions(item, DATEAFTER, VERSIONSTORETAIN);
+			List<Artifact> survivors = artifactRepository.findArtifactsYoungerThanMinimumVersions(item, DATEAFTER,
+					VERSIONSTORETAIN);
 			allSurvivors.addAll(survivors);
 		}
 		System.out.println("list of survivor artifacts");
@@ -69,13 +69,14 @@ public class NexuscleanApplication implements CommandLineRunner {
 		artifactRepository.printAllArtifacts(toBeDeleted, System.out);
 		System.out.println("curl to delete artifacts");
 		for (Artifact item : toBeDeleted) {
-			System.out.println(URLFORDELETE + item.getGroupId().replaceAll("\\.", "/") + "/" + item.getArtifactId() + "/" + item.getVersion());
+			System.out.println(URLFORDELETE + item.getGroupId().replaceAll("\\.", "/") + "/" + item.getArtifactId()
+					+ "/" + item.getVersion());
 		}
 		System.out.println("rm to delete artifacts");
 		for (Artifact item : toBeDeleted) {
 			System.out.println("rm -rf  " + new File(item.getFileLocation()).getParent() + "/");
 		}
-		
+
 	}
 
 	/**
@@ -97,15 +98,27 @@ public class NexuscleanApplication implements CommandLineRunner {
 				if (file.getName().endsWith(".pom")) {
 					MavenXpp3Reader reader = new MavenXpp3Reader();
 					Model model = reader.read(new FileReader(file));
-					Artifact artifact = new Artifact(model.getArtifactId(), model.getGroupId(), model.getVersion(),
+					String artifactId = model.getArtifactId();
+					String groupId = model.getGroupId();
+					String version = model.getVersion();
+					if (model.getParent() != null) {
+						if (groupId == null) {
+							groupId = model.getParent().getGroupId();
+						}
+						if (artifactId == null ) {
+							artifactId = model.getParent().getArtifactId();
+						}
+						if (version == null ) {
+							version = model.getParent().getVersion();
+						}
+					}
+					Artifact artifact = new Artifact(artifactId, groupId, version,
 							dt.format(new Date(file.lastModified())), file.getAbsolutePath());
-					if (model.getGroupId() == null) {
+					if (groupId == null) {
 						System.out.println("WARNING: null groupId for " + artifact);
-					} 
-					else if (model.getArtifactId() == null) {
+					} else if (artifactId == null) {
 						System.out.println("WARNING: null artifactId for " + artifact);
-					} 
-					else if (model.getVersion() == null) {
+					} else if (version == null) {
 						System.out.println("WARNING: null version for " + artifact);
 					} else {
 
