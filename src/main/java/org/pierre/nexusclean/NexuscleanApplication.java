@@ -133,7 +133,11 @@ public class NexuscleanApplication implements CommandLineRunner {
 						System.out.println("WARNING: null artifactId for " + artifact);
 					} else if (version == null) {
 						System.out.println("WARNING: null version for " + artifact);
-					} else {
+					} 
+					else if (groupId.contains("${") || artifactId.contains("${") || version.contains("${")) {
+						System.out.println("WARNING: placeholder ${} in " + artifact);
+					}
+					else { 
 
 						artifactRepository.add(artifact);
 					}
